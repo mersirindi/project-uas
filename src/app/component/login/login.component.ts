@@ -1,4 +1,3 @@
-// src/app/components/login/login.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -18,17 +17,15 @@ export class LoginComponent {
   constructor(private router: Router, private authService: AuthService) {}
 
   login() {
-    console.log('Login attempt:', this.username);
-
     if (!this.username || !this.password) {
       alert('Username dan password harus diisi!');
       return;
     }
 
     const success = this.authService.login(this.username, this.password);
-    console.log('Login success:', success);
 
     if (success) {
+      console.log('Login berhasil');
       this.router.navigate(['/dashboard']);
     } else {
       alert('Login gagal! Username atau password salah.');
@@ -37,10 +34,5 @@ export class LoginComponent {
 
   goToRegister() {
     this.router.navigate(['/register']);
-  }
-
-  // Method untuk debug
-  debugUsers() {
-    console.log('Current users:', this.authService.getUsers());
   }
 }

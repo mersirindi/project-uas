@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Dashboard } from './pages/dashboard/dashboard';
+// HAPUS import Dashboard dari sini agar tidak bentrok dengan Router
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Dashboard],
+  imports: [RouterOutlet], // Cukup RouterOutlet saja
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('project-uas');
