@@ -2,21 +2,26 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Dashboard } from './dashboard';
 import { AuthService } from '../../services/auth.service';
+// Import utilitas dari Vitest
+import { vi, describe, it, expect, beforeEach, type Mocked } from 'vitest';
+import { By } from '@angular/platform-browser';
 
 describe('DashboardComponent', () => {
   let component: Dashboard;
   let fixture: ComponentFixture<Dashboard>;
-  let authService: jest.Mocked<AuthService>;
-  let router: jest.Mocked<Router>;
+  // Ubah 'jest.Mocked' menjadi 'Mocked' (dari Vitest)
+  let authService: Mocked<AuthService>;
+  let router: Mocked<Router>;
 
   beforeEach(async () => {
+    // Ubah 'jest.fn()' menjadi 'vi.fn()'
     const authServiceMock = {
-      logout: jest.fn(),
-      getCurrentUser: jest.fn().mockReturnValue({ username: 'admin', role: 'admin' }),
+      logout: vi.fn(),
+      getCurrentUser: vi.fn().mockReturnValue({ username: 'admin', role: 'admin' }),
     };
 
     const routerMock = {
-      navigate: jest.fn(),
+      navigate: vi.fn(),
     };
 
     await TestBed.configureTestingModule({
@@ -28,8 +33,10 @@ describe('DashboardComponent', () => {
 
     fixture = TestBed.createComponent(Dashboard);
     component = fixture.componentInstance;
-    authService = TestBed.inject(AuthService) as jest.Mocked<AuthService>;
-    router = TestBed.inject(Router) as jest.Mocked<Router>;
+
+    // Casting menggunakan 'Mocked' dari Vitest
+    authService = TestBed.inject(AuthService) as Mocked<AuthService>;
+    router = TestBed.inject(Router) as Mocked<Router>;
 
     fixture.detectChanges();
   });
@@ -57,8 +64,9 @@ describe('DashboardComponent', () => {
   });
 
   it('harus memanggil logout saat tombol logout diklik', () => {
-    const logoutBtn = fixture.nativeElement.querySelector('.logout-btn');
-    logoutBtn.click();
+    // Menggunakan debugElement untuk interaksi tombol yang lebih aman
+    const logoutBtn = fixture.debugElement.query(By.css('.logout-btn'));
+    logoutBtn.triggerEventHandler('click', null);
 
     expect(authService.logout).toHaveBeenCalled();
   });
